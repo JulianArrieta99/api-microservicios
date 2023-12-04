@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+
+  config:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.config
+    ports:
+      - 8888:8888
+
+  discovery:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.discovery
+    ports:
+      - 8761:8761
+    depends_on:
+      - config
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gateway
+    ports:
+      - 8080:8080
+    depends_on:
+      - discovery
+      - config
+
+  school:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.school
+
+  student:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.student
+
+  students-postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: students_database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+        - "5433:5432"
+
+  school-postgres:
+    image: postgres
+    environment:
+        POSTGRES_DB: schools_database
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: 1234
+    ports:
+      - "5434:5432"
+
+volumes:
+  db1-data: {}
+  db2-data: {}
+
+networks:
+  default:
+    driver: bridge

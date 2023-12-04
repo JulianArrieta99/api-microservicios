@@ -1,0 +1,14 @@
+FROM eclipse-temurin:17-jdk-jammy
+# Usamos la imagen oficial de Java
+
+WORKDIR /app
+# Directorio de trabajo
+
+COPY discovery/target/discovery-0.0.1-SNAPSHOT.jar app.jar
+# Copiamos el JAR compilado
+
+EXPOSE 8761
+# Exponemos el puerto
+
+ENTRYPOINT ["java","-jar","app.jar"]
+# Comando de entrada

@@ -1,6 +1,6 @@
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${HOSTNAME}
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
@@ -12,7 +12,6 @@ spring:
   application:
     name: schools
   datasource:
-    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5433/schools_database
     username: postgres
     password: 1234
